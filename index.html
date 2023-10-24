@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Github Proxy</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    form {
+      margin-top: 20px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .output {
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Github Proxy</h1>
+    <form onsubmit="submitForm(event)">
+      <input type="text" id="urlInput" placeholder="Enter GitHub URL">
+      <button type="submit">Fetch</button>
+    </form>
+    <div class="output" id="output"></div>
+  </div>
+
+  <script>
+    function submitForm(event) {
+      event.preventDefault();
+      const urlInput = document.getElementById('urlInput');
+      const output = document.getElementById('output');
+      const url = urlInput.value.trim();
+
+      if (url === '') {
+        output.innerText = 'Please enter a valid GitHub URL.';
+        return;
+      }
+
+      const proxyUrl = 'https://cors-anywhere.herokuapp.com/' + url;
+      fetch(proxyUrl)
+        .then(response => response.text())
+        .then(data => {
+          output.innerText = data;
+        })
+        .catch(error => {
+          output.innerText = 'Error fetching data from GitHub.';
+          console.error(error);
+        });
+    }
+  </script>
+</body>
+</html>
